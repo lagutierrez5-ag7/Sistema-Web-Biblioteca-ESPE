@@ -5,20 +5,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const tablaPrestamosBody = document.querySelector("#tabla-prestamos tbody");
     const selectLibro = document.getElementById("select-libro");
 
-    // Datos iniciales
+    // Datos iniciales de inventario
     let libros = [
-        { id: 1, titulo: "Sistemas Operativos Conceptos", autor: "Silberschatz", categoria: "Programación", estado: "Disponible" },
-        { id: 2, titulo: "Cálculo de una Variable", autor: "Thomas", categoria: "Matemáticas", estado: "Disponible" }
+        { id: "1", titulo: "Sistemas Operativos Conceptos", autor: "Silberschatz", categoria: "Programación", estado: "Disponible" },
+        { id: "2", titulo: "Cálculo de una Variable", autor: "Thomas", categoria: "Matemáticas", estado: "Disponible" },
+        { id: "3", titulo: "Ciberseguridad Industrial", autor: "William Stallings", categoria: "Ciberseguridad", estado: "Disponible" }
     ];
 
     let prestamos = [];
 
     function renderizarTodo() {
-        // 1. Renderizar Tabla de Inventario
+        // 1. Renderizar Inventario y Menú Desplegable
         tablaLibrosBody.innerHTML = "";
-        selectLibro.innerHTML = '<option value="">Seleccione un libro</option>';
+        selectLibro.innerHTML = '<option value="">-- Seleccione un libro --</option>';
 
-        libros.forEach((libro, index) => {
+        libros.forEach((libro) => {
+            // Renderizar fila en la tabla de inventario
             const fila = document.createElement("tr");
             const esDisponible = libro.estado === "Disponible";
             const badgeClass = esDisponible ? "badge-disponible" : "badge-prestado";
@@ -28,20 +30,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${libro.autor}</td>
                 <td>${libro.categoria}</td>
                 <td><span class="badge ${badgeClass}">${libro.estado}</span></td>
-                <td><button class="btn-action" onclick="eliminarLibro(${index})">Eliminar</button></td>
+                <td><button class="btn-action" onclick="eliminarLibro('${libro.id}')">Eliminar</button></td>
             `;
             tablaLibrosBody.appendChild(fila);
 
-            // Poblar el menú desplegable solo con libros disponibles
+            // Agregar al selector si está disponible
             if (esDisponible) {
                 const option = document.createElement("option");
-                option.value = libro.id;
+                option.value = String(libro.id);
                 option.textContent = libro.titulo;
                 selectLibro.appendChild(option);
             }
         });
 
-        // 2. Renderizar Tabla de Préstamos
+        // 2. Renderizar Tabla de Préstamos Activos
         tablaPrestamosBody.innerHTML = "";
         prestamos.forEach((prestamo, index) => {
             const fila = document.createElement("tr");
@@ -55,50 +57,59 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Guardar Libro Nuevo
-    formLibro.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const titulo = document.getElementById("titulo").value;
-        const autor = document.getElementById("autor").value;
-        const categoria = document.getElementById("categoria").value;
+    // Registrar un Nuevo Libro
+    if (formLibro) {
+        formLibro.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const titulo = document.getElementById("titulo").value;
+            const autor = document.getElementById("autor").value;
+            const categoria = document.getElementById("categoria").value;
 
-        libros.push({
-            id: Date.now(),
-            titulo,
-            autor,
-            categoria,
-            estado: "Disponible"
-        });
-
-        renderizarTodo();
-        formLibro.reset();
-    });
-
-    // Registrar Préstamo
-    formPrestamo.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const persona = document.getElementById("nombre-persona").value;
-        const libroId = parseInt(selectLibro.value);
-
-        const libro = libros.find(l => l.id === libroId);
-        if (libro) {
-            libro.estado = "Prestado";
-            prestamos.push({
-                persona,
-                libroId: libro.id,
-                libroTitulo: libro.titulo,
-                fecha: new Date().toLocaleDateString('es-ES')
+            libros.push({
+                id: String(Date.now()),
+                titulo,
+                autor,
+                categoria,
+                estado: "Disponible"
             });
 
             renderizarTodo();
-            formPrestamo.reset();
-        }
-    });
+            formLibro.reset();
+        });
+    }
 
-    // Devolver Libro
+    // Registrar Préstamo de Libro
+    if (formPrestamo) {
+        formPrestamo.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const persona = document.getElementById("nombre-persona").value;
+            const libroId = selectLibro.value;
+
+            if (!libroId) {
+                alert("Por favor seleccione un libro de la lista.");
+                return;
+            }
+
+            const libro = libros.find(l => String(l.id) === String(libroId));
+            if (libro) {
+                libro.estado = "Prestado";
+                prestamos.push({
+                    persona,
+                    libroId: libro.id,
+                    libroTitulo: libro.titulo,
+                    fecha: new Date().toLocaleDateString('es-ES')
+                });
+
+                renderizarTodo();
+                formPrestamo.reset();
+            }
+        });
+    }
+
+    // Devolver Libro Prestado
     window.devolverLibro = function(index) {
         const prestamo = prestamos[index];
-        const libro = libros.find(l => l.id === prestamo.libroId);
+        const libro = libros.find(l => String(l.id) === String(prestamo.libroId));
         if (libro) {
             libro.estado = "Disponible";
         }
@@ -106,9 +117,9 @@ document.addEventListener("DOMContentLoaded", () => {
         renderizarTodo();
     };
 
-    // Eliminar Libro
-    window.eliminarLibro = function(index) {
-        libros.splice(index, 1);
+    // Eliminar Libro del Inventario
+    window.eliminarLibro = function(id) {
+        libros = libros.filter(l => String(l.id) !== String(id));
         renderizarTodo();
     };
 
