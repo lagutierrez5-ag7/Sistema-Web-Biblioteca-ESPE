@@ -5,7 +5,7 @@
     --card-bg: #ffffff;
     --text-color: #333333;
     --border-color: #e0e0e0;
-    --accent-color: #28a745;
+    --accent-color: #0056b3;
 }
 
 body {
@@ -83,6 +83,14 @@ header p { margin-top: 5px; opacity: 0.9; }
     background-color: var(--primary-hover);
 }
 
+.btn-prestamo {
+    background-color: var(--accent-color);
+}
+
+.btn-prestamo:hover {
+    background-color: #003d80;
+}
+
 .btn-action {
     background-color: #dc3545;
     color: white;
@@ -90,6 +98,16 @@ header p { margin-top: 5px; opacity: 0.9; }
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.btn-devolver {
+    background-color: #ffc107;
+    color: #333;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 table {
@@ -114,6 +132,14 @@ th {
     border-radius: 12px;
     font-size: 0.85rem;
     font-weight: bold;
+}
+
+.badge-disponible {
     background-color: #e2f0d9;
     color: #385723;
+}
+
+.badge-prestado {
+    background-color: #fce4d6;
+    color: #c65911;
 }
