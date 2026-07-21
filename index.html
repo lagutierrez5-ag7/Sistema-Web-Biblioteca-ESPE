@@ -4,20 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Web Biblioteca ESPE</title>
-    <!-- Vinculación del CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <h1>Sistema Web Biblioteca ESPE</h1>
+        <p>Módulo de Gestión de Inventario y Préstamos</p>
     </header>
 
-    <main class="container">
-        <h2>Bienvenido al Sistema de Gestión</h2>
-        <p>Prototipo en desarrollo para la gestión de libros y préstamos.</p>
+    <main class="main-container">
+        <!-- Sección Formulario Registro de Libros -->
+        <section class="card">
+            <h2>Registrar Nuevo Libro</h2>
+            <form id="form-libro">
+                <div class="form-group">
+                    <label for="titulo">Título del Libro:</label>
+                    <input type="text" id="titulo" placeholder="Ej. Cálculo Multivariable" required>
+                </div>
+                <div class="form-group">
+                    <label for="autor">Autor:</label>
+                    <input type="text" id="autor" placeholder="Ej. James Stewart" required>
+                </div>
+                <div class="form-group">
+                    <label for="categoria">Categoría:</label>
+                    <select id="categoria" required>
+                        <option value="">Seleccione una categoría</option>
+                        <option value="Matemáticas">Matemáticas</option>
+                        <option value="Programación">Programación</option>
+                        <option value="Ciberseguridad">Ciberseguridad</option>
+                        <option value="Física">Física</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Guardar Libro</button>
+            </form>
+        </section>
+
+        <!-- Sección Inventario de Libros -->
+        <section class="card">
+            <h2>Inventario de Libros</h2>
+            <table id="tabla-libros">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>Categoría</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Se cargará dinámicamente mediante JS -->
+                </tbody>
+            </table>
+        </section>
     </main>
 
-    <!-- Vinculación del JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
