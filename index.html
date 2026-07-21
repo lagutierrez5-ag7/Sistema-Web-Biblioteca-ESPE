@@ -13,7 +13,7 @@
     </header>
 
     <main class="main-container">
-        <!-- Sección Formulario Registro de Libros -->
+        <!-- Registrar Nuevo Libro -->
         <section class="card">
             <h2>Registrar Nuevo Libro</h2>
             <form id="form-libro">
@@ -32,14 +32,13 @@
                         <option value="Matemáticas">Matemáticas</option>
                         <option value="Programación">Programación</option>
                         <option value="Ciberseguridad">Ciberseguridad</option>
-                        <option value="Física">Física</option>
                     </select>
                 </div>
                 <button type="submit" class="btn">Guardar Libro</button>
             </form>
         </section>
 
-        <!-- Sección Registrar Préstamo -->
+        <!-- Registrar Préstamo -->
         <section class="card">
             <h2>Registrar Préstamo de Libro</h2>
             <form id="form-prestamo">
@@ -50,14 +49,17 @@
                 <div class="form-group">
                     <label for="select-libro">Seleccionar Libro Disponible:</label>
                     <select id="select-libro" required>
-                        <!-- Se llena dinámicamente con los libros disponibles -->
+                        <option value="">-- Seleccione un libro --</option>
+                        <option value="Sistemas Operativos Conceptos">Sistemas Operativos Conceptos</option>
+                        <option value="Cálculo de una Variable">Cálculo de una Variable</option>
+                        <option value="Ciberseguridad Industrial">Ciberseguridad Industrial</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-prestamo">Registrar Préstamo</button>
             </form>
         </section>
 
-        <!-- Sección Inventario de Libros -->
+        <!-- Inventario de Libros -->
         <section class="card">
             <h2>Inventario de Libros</h2>
             <table id="tabla-libros">
@@ -70,11 +72,33 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="body-libros">
+                    <tr>
+                        <td>Sistemas Operativos Conceptos</td>
+                        <td>Silberschatz</td>
+                        <td>Programación</td>
+                        <td><span class="badge badge-disponible" id="badge-Sistemas Operativos Conceptos">Disponible</span></td>
+                        <td><button class="btn-action" onclick="this.closest('tr').remove()">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td>Cálculo de una Variable</td>
+                        <td>Thomas</td>
+                        <td>Matemáticas</td>
+                        <td><span class="badge badge-disponible" id="badge-Cálculo de una Variable">Disponible</span></td>
+                        <td><button class="btn-action" onclick="this.closest('tr').remove()">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td>Ciberseguridad Industrial</td>
+                        <td>William Stallings</td>
+                        <td>Ciberseguridad</td>
+                        <td><span class="badge badge-disponible" id="badge-Ciberseguridad Industrial">Disponible</span></td>
+                        <td><button class="btn-action" onclick="this.closest('tr').remove()">Eliminar</button></td>
+                    </tr>
+                </tbody>
             </table>
         </section>
 
-        <!-- Sección Historial de Préstamos Activos -->
+        <!-- Préstamos Activos -->
         <section class="card">
             <h2>Préstamos Activos</h2>
             <table id="tabla-prestamos">
@@ -86,7 +110,7 @@
                         <th>Acción</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="body-prestamos"></tbody>
             </table>
         </section>
     </main>
